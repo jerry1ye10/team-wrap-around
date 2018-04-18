@@ -1,0 +1,32 @@
+# team-wrap-around  
+## The Game Plan  
+1. Implement the following core methods:  
+  * addFirst(Object)  
+  * addLast(Object)
+  * removeFirst()
+  * removeLast()
+  * size()
+  * getFirst()  
+  * getLast()
+2. Implement wrappers for other methods:  
+  * add(Object)
+  * remove()
+  * peek()
+  * peekFirst() 
+  * peekLast()
+  * element()
+  * offer(Object)
+  * offerFirst(Object)
+  * offerLast(Object)
+  * poll()
+  * pollFirst() 
+  * pollLast()
+  * pop()
+  * push(Object) 
+3. Implement extra functionality:
+  * contains(Object)
+  * descendingIterator()
+  * iterator()
+  * remove(Object)
+  * removeFirstOccurence(Object)
+  * removeLastOccurence(Object)
