@@ -1,3 +1,5 @@
+import java.util.Iterator;
+
 public interface Deque {
 	
 	/****************************
@@ -60,18 +62,18 @@ public interface Deque {
 	
 	//Returns and removes first item in queue represented by this deque, and null if the
 	//deque is empty
-	public E poll();
+	public String poll();
 	
 	//Returns and removes first item in this deque, and null if the
 	//deque is empty
-	public E pollFirst();
+	public String pollFirst();
 	
 	//Returns and removes first item in this deque, and null if the
 	//deque is empty
-	public E pollList();
+	public String pollList();
 	
 	//Removes and returns an item from the stack represented by this deque
-	public E pop();
+	public String pop();
 	
 	//Adds an item onto the stack represented by this deque
 	public void push(String e);
