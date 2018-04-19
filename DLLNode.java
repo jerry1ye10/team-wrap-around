@@ -4,23 +4,23 @@
  * Stores a String as cargo.
  *****************************************************/
 
-public class DLLNode
+public class DLLNode<E>
 {
-  private String _cargo;    //cargo may only be of type String
+  private E _value;    //data that this node holds
   private DLLNode _nextNode, _prevNode; //pointers to next, prev DLLNodes
 
 
   // constructor -- initializes instance vars
-  public DLLNode( String value, DLLNode prev, DLLNode next )
+  public DLLNode( E value, DLLNode prev, DLLNode next )
   {
-    _cargo = value;
+    _value = value;
     _nextNode = next;
     _prevNode = prev;
   }
 
 
   //--------------v  ACCESSORS  v--------------
-  public String getCargo() { return _cargo; }
+  public E getValue() { return _value; }
 
   public DLLNode getNext() { return _nextNode; }
 
@@ -29,10 +29,10 @@ public class DLLNode
 
 
   //--------------v  MUTATORS  v--------------
-  public String setCargo( String newCargo )
+  public E setValue( E newValue )
   {
-    String foo = getCargo();
-    _cargo = newCargo;
+    E foo = getValue();
+    _value = newValue;
     return foo;
   }
 
@@ -53,30 +53,7 @@ public class DLLNode
 
 
   // override inherited toString
-  public String toString() { return _cargo.toString(); }
+  public String toString() { return _value.toString(); }
 
-
-  //main method for testing
-  public static void main( String[] args )
-  {
-    //Below is an exercise in creating a linked list...
-
-    /*********************
-     //Create a node
-	DLLNode first = new DLLNode( "cat", null );
-
-	//Create a new node after the first
-	first.setNext( new DLLNode( "dog", null ) );
-
-	//Create a third node after the second
-	first.getNext().setNext( new DLLNode( "cow", null ) );
-
-	DLLNode temp = first; 
-	while( temp != null ) {
-	    System.out.println( temp );
-	    temp = temp.getNext();
-	}
-    ***********************/
-  }//end main
 
 }//end class DLLNode

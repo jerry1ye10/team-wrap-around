@@ -2,9 +2,11 @@ import java.util.Iterator;
 
 public interface Deque {
 	
+	
 	/****************************
 	*     CORE FUNCTIONALITY    *
 	*****************************/
+	/*WORK BAR
 	//Inserts element passed at the front of the list
 	public void addFirst(String e);
 	
@@ -16,7 +18,8 @@ public interface Deque {
 	
 	//Removes the last element in the list returns it 
 	public String removeLast();
-	
+		
+	WORK BAR*/
 	//Returns the size of the list
 	public int size();
 	
@@ -26,10 +29,11 @@ public interface Deque {
 	//Returns the last element without removing it
 	public String getLast();
 	
+	
 	/****************************
 	*         WRAPPERS          *
 	*****************************/
-	
+	/*WORK BAR
 	//Add element to the queue represented by this deque
 	public void add(String e);
 	
@@ -77,11 +81,12 @@ public interface Deque {
 	
 	//Adds an item onto the stack represented by this deque
 	public void push(String e);
+	WORK BAR*/
 	
 	/****************************
 	*    EXTRA FUNCTIONALITY    *
 	*****************************/
-	
+	/* WORK BAR
 	//Returns true if the object is in the list
 	public boolean contains(String o);
 	
@@ -102,4 +107,5 @@ public interface Deque {
 	//Remove the last occurince of Object o in string. Return whether there was an element
 	//that matched the query
 	public boolean removeLastOccurence(String o);
+	WORK BAR*/
 } //end interface
