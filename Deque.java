@@ -19,7 +19,6 @@ public interface Deque {
 	//Removes the last element in the list returns it 
 	public String removeLast();
 		
-
 	//Returns the size of the list
 	public int size();
 	
@@ -29,11 +28,10 @@ public interface Deque {
 	//Returns the last element without removing it
 	public String getLast();
 	
-	
 	/****************************
 	*         WRAPPERS          *
 	*****************************/
-	/*WORK BAR
+	
 	//Add element to the queue represented by this deque
 	public void add(String e);
 	
@@ -81,8 +79,7 @@ public interface Deque {
 	
 	//Adds an item onto the stack represented by this deque
 	public void push(String e);
-	WORK BAR*/
-	
+
 	/****************************
 	*    EXTRA FUNCTIONALITY    *
 	*****************************/

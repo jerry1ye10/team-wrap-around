@@ -7,11 +7,11 @@
 public class DLLNode<E>
 {
   private E _value;    //data that this node holds
-  private DLLNode _nextNode, _prevNode; //pointers to next, prev DLLNodes
+  private DLLNode<E> _nextNode, _prevNode; //pointers to next, prev DLLNodes
 
 
   // constructor -- initializes instance vars
-  public DLLNode( E value, DLLNode prev, DLLNode next )
+  public DLLNode( E value, DLLNode<E> prev, DLLNode<E> next )
   {
     _value = value;
     _nextNode = next;
@@ -22,9 +22,9 @@ public class DLLNode<E>
   //--------------v  ACCESSORS  v--------------
   public E getValue() { return _value; }
 
-  public DLLNode getNext() { return _nextNode; }
+  public DLLNode<E> getNext() { return _nextNode; }
 
-  public DLLNode getPrev() { return _prevNode; }
+  public DLLNode<E> getPrev() { return _prevNode; }
   //--------------^  ACCESSORS  ^--------------
 
 
@@ -36,14 +36,14 @@ public class DLLNode<E>
     return foo;
   }
 
-  public DLLNode setNext( DLLNode newNext )
+  public DLLNode setNext( DLLNode<E> newNext )
   {
     DLLNode foo = getNext();
     _nextNode = newNext;
     return foo;
   }
 
-  public DLLNode setPrev( DLLNode newPrev )
+  public DLLNode setPrev( DLLNode<E> newPrev )
   {
     DLLNode foo = getPrev();
     _prevNode = newPrev;
