@@ -6,7 +6,7 @@ public interface Deque {
 	/****************************
 	*     CORE FUNCTIONALITY    *
 	*****************************/
-	/*WORK BAR
+
 	//Inserts element passed at the front of the list
 	public void addFirst(String e);
 	
@@ -19,7 +19,7 @@ public interface Deque {
 	//Removes the last element in the list returns it 
 	public String removeLast();
 		
-	WORK BAR*/
+
 	//Returns the size of the list
 	public int size();
 	
