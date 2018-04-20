@@ -1,6 +1,7 @@
 import java.util.Iterator;
 
-public interface Deque {
+//Conforms to the standard library documentation, minus the sub interfaces
+public interface MyDeque<E> {
 	
 	
     /****************************
@@ -8,102 +9,101 @@ public interface Deque {
      *****************************/
 
     //Inserts element passed at the front of the list
-    public void addFirst(String e);
+    public void addFirst(E e);
 	
     //Inserts element passed at the end of the list
-    public void addLast(String e);
+    public void addLast(E e);
 	
     //Removes the first element in the list and returns it
-    public String removeFirst();
+    public E removeFirst();
 	
     //Removes the last element in the list returns it 
-    public String removeLast();
+    public E removeLast();
 		
     //Returns the size of the list
     public int size();
 	
     //Returns the first element without removing it
-    public String getFirst();
+    public E getFirst();
 	
     //Returns the last element without removing it
-    public String getLast();
+    public E getLast();
 	
     /****************************
      *         WRAPPERS          *
      *****************************/
 	
     //Add element to the queue represented by this deque
-    public void add(String e);
+    public boolean add(E e);
 	
     //Remove and return element from the queue represented by this deque
-    public String remove();
+    public E remove();
 	
     //Returns the first element but does not remove it, returns null if it's empty
-    public String peek();
+    public E peek();
 	
     //Returns the first element but does not remove it, returns null if it's empty
-    public String peekFirst();
+    public E peekFirst();
 	
     //Returns the last element but does not remove it, returns null if it's empty
-    public String peekLast();
+    public E peekLast();
 	
     //Returns the first item in the queue represented by this deque without removing it
-    public String element();
+    public E element();
 	
     //Inserts element into queue represented by deque if permitted by size. return true
     //on success and false if there's no space.
-    public boolean offer(String e);
+    public boolean offer(E e);
 	
     //Inserts element at front of dequeue if permitted by size. return true on success
     //and false if there's no space
-    public boolean offerFirst(String e);
+    public boolean offerFirst(E e);
 	
     //Inserts element at end of dequeue if permitted by size. return true on success
     //and false if there's no space
-    public boolean offerLast(String e);
+    public boolean offerLast(E e);
 	
     //Returns and removes first item in queue represented by this deque, and null if the
     //deque is empty
-    public String poll();
+    public E poll();
 	
     //Returns and removes first item in this deque, and null if the
     //deque is empty
-    public String pollFirst();
+    public E pollFirst();
 	
     //Returns and removes first item in this deque, and null if the
     //deque is empty
-    public String pollLast();
+    public E pollLast();
 	
     //Removes and returns an item from the stack represented by this deque
-    public String pop();
+    public E pop();
 	
     //Adds an item onto the stack represented by this deque
-    public void push(String e);
+    public void push(E e);
 
     /****************************
      *    EXTRA FUNCTIONALITY    *
      *****************************/
 	
     //Returns true if the object is in the list
-    public boolean contains(String o);
+    public boolean contains(Object o);
        
     //Return an iterator of the elements in this deque
-    public Iterator<String> iterator();
+    public Iterator<E> iterator();
 
-    /* WORK BAR
+  
     //Return an iterator of the elements in reverse order in this deque
-    public Iterator<String> descendingIterator();
+    public Iterator<E> descendingIterator();
 	
     //Remove the first occurence of Object o in string. Return whether there was an element
     //that matched the query
-    public boolean remove(String o);
+    public boolean remove(Object o);
 	
     //Remove the first occurence of Object o in string. Return whether there was an element
     //that matched the query
-    public boolean removeFirstOccurence(String o);
+    public boolean removeFirstOccurrence(Object o);
 	
     //Remove the last occurince of Object o in string. Return whether there was an element
     //that matched the query
-    public boolean removeLastOccurence(String o);
-    WORK BAR*/
+    public boolean removeLastOccurrence(Object o);
 } //end interface

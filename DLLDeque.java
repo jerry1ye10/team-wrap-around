@@ -1,8 +1,9 @@
 import java.util.NoSuchElementException;
 import java.util.Iterator;
+import java.util.Deque; //Does not conform to the standard library because of unimplemented methods in subinterfaces
 
-public class DLLDeque implements Deque, Iterable {
-    DLLNode<String> _head, _tail;
+public class DLLDeque<E> implements MyDeque<E>, Iterable {
+    DLLNode<E> _head, _tail;
     int _size;
     int _max;
 
@@ -16,53 +17,54 @@ public class DLLDeque implements Deque, Iterable {
        	_max = max;
     }
 	
-    public void add(String e) {
+    public boolean add(E e) {
 	addLast(e);
+	return true;
     }
 	
-    public void addFirst(String e) {
+    public void addFirst(E e) {
 	if( (_max >= 0) && (_size >= _max) ) {
-	    throw new IllegalStateException();
+	    throw new IllegalStateException("Max size reached");
 	}
 	else if(size() == 0) {
-	    DLLNode<String> newNode = new DLLNode<String>(e, null, null);
+	    DLLNode<E> newNode = new DLLNode<E>(e, null, null);
 	    _head = newNode;
 	    _tail = newNode;
 	}
 	else {
-	    DLLNode<String> newNode = new DLLNode<String>(e, null, _head);
+	    DLLNode<E> newNode = new DLLNode<E>(e, null, _head);
 	    _head.setPrev(newNode);
 	    _head = newNode;
 	}
 	_size++;
     }
 	
-    public void addLast(String e) {
+    public void addLast(E e) {
 	if( (_max >= 0) && (_size >= _max) ) {
-	    throw new IllegalStateException();
+	    throw new IllegalStateException("Max size reached");
 	}
 	else if(size() == 0) {
-	    DLLNode<String> newNode = new DLLNode<String>(e, null, null);
+	    DLLNode<E> newNode = new DLLNode<E>(e, null, null);
 	    _head = newNode;
 	    _tail = newNode;
 	}
 	else {
-	    DLLNode<String> newNode = new DLLNode<String>(e, _tail, null);
+	    DLLNode<E> newNode = new DLLNode<E>(e, _tail, null);
 	    _tail.setNext(newNode);
 	    _tail = newNode;
 	}
 	_size++;
     }
 
-    public void push(String e) {
+    public void push(E e) {
 	addFirst(e);
     }
 	
-    public boolean offer(String e) {
+    public boolean offer(E e) {
 	return offerLast(e);
     }
 	
-    public boolean offerFirst(String e) {
+    public boolean offerFirst(E e) {
 	if( (_max >= 0) && (_size >= _max) ) {
 	    return false;
 	}
@@ -70,7 +72,7 @@ public class DLLDeque implements Deque, Iterable {
 	return true;
     }
 	
-    public boolean offerLast(String e) {
+    public boolean offerLast(E e) {
 	if( (_max >= 0) && (_size >= _max) ) {
 	    return false;
 	}
@@ -78,12 +80,12 @@ public class DLLDeque implements Deque, Iterable {
 	return true;
     }
 	
-    public String remove(){
+    public E remove(){
 	return removeFirst();
     }
 	
-    public String removeFirst(){
-	String retVal;
+    public E removeFirst(){
+	E retVal;
 	if(size() == 0) { throw new NoSuchElementException();}
 	if(size() == 1) {
 	    retVal = _head.getValue();
@@ -99,8 +101,8 @@ public class DLLDeque implements Deque, Iterable {
 	return retVal;
     }
     
-    public String removeLast(){
-	String retVal;
+    public E removeLast(){
+	E retVal;
 	if(size() == 0) { throw new NoSuchElementException();}
 	if(size() == 1) {
 	    retVal = _head.getValue();
@@ -116,15 +118,15 @@ public class DLLDeque implements Deque, Iterable {
 	return retVal;
     }
 
-    public boolean remove(String o) {
-	return removeFirstOccurence(o);
+    public boolean remove(Object o) {
+	return removeFirstOccurrence(o);
     }
     
-    public boolean removeFirstOccurence(String o) {
-	Iterator<String> iter = iterator();
+    public boolean removeFirstOccurrence(Object o) {
+	Iterator<E> iter = iterator();
 	while(iter.hasNext()) {
-	    String s = iter.next();
-	    if(s.equals(o)) {
+	    E e = iter.next();
+	    if(e.equals(o)) {
 		iter.remove();
 		return true;
 	    }
@@ -132,11 +134,11 @@ public class DLLDeque implements Deque, Iterable {
 	return false;
     }
 
-    public boolean removeLastOccurence(String o) {
-	Iterator<String> iter = descendingIterator();
+    public boolean removeLastOccurrence(Object o) {
+	Iterator<E> iter = descendingIterator();
 	while(iter.hasNext()) {
-	    String s = iter.next();
-	    if(s.equals(o)) {
+	    E e = iter.next();
+	    if(e.equals(o)) {
 		iter.remove();
 		return true;
 	    }
@@ -144,20 +146,20 @@ public class DLLDeque implements Deque, Iterable {
 	return false;
     }
     
-    public String pop() {
+    public E pop() {
 	return removeFirst();
     }
 	
-    public String poll() {
+    public E poll() {
 	return pollFirst();
     }
 	
-    public String pollFirst() {
+    public E pollFirst() {
 	if(_size == 0) { return null; }
 	return removeFirst();
     }
 	
-    public String pollLast() {
+    public E pollLast() {
 	if(_size == 0) { return null; }
 	return removeLast();
     }
@@ -166,47 +168,47 @@ public class DLLDeque implements Deque, Iterable {
        	return _size;
     }
 	
-    public String getFirst() {
+    public E getFirst() {
 	if( _size == 0 ) { throw new NoSuchElementException(); }
        	return _head.getValue();
     }
 
-    public String getLast() {
+    public E getLast() {
 	if( _size == 0 ) { throw new NoSuchElementException(); }
 	return _tail.getValue();
     }
 	
-    public String peek() {
+    public E peek() {
 	return peekFirst();
     }
 	
-    public String peekFirst() {
+    public E peekFirst() {
 	if( _size == 0 ) { return null; }
 	return getFirst();
     }
 	
-    public String peekLast() {
+    public E peekLast() {
 	if( _size == 0 ) { return null; }
 	return getLast();
     }
 	
-    public String element() {
+    public E element() {
 	return getFirst();
     }
 
-    public Iterator<String> iterator() {
-	return new MyIterator(true);
+    public Iterator<E> iterator() {
+	return new DLLDequeIterator(true);
     }
 
-    public Iterator<String> descendingIterator() {
-	return new MyIterator(false);
+    public Iterator<E> descendingIterator() {
+	return new DLLDequeIterator(false);
     }
 
-    public boolean contains(String o) {
-	Iterator<String> i = this.iterator();
+    public boolean contains(Object o) {
+	Iterator<E> i = this.iterator();
 	while (i.hasNext()) {
-	    String s = i.next();
-	    if( s.equals(o) ) {
+	    E e = i.next();
+	    if( e.equals(o) ) {
 		return true;
 	    }
 	}
@@ -230,21 +232,21 @@ public class DLLDeque implements Deque, Iterable {
      * Adheres to specifications given by Iterator interface.
      * Uses dummy node to facilitate iterability over DLLDeque.
      *****************************************************/
-    private class MyIterator implements Iterator<String> 
+    private class DLLDequeIterator implements Iterator<E> 
     {
-	private DLLNode<String> _dummy;   // dummy node to tracking pos
+	private DLLNode<E> _dummy;   // dummy node to tracking pos
 	private boolean _okToRemove; // flag indicates next() was called
 	private boolean head; //Whether the iterator starts from the head or the tail
 	
 	//constructor 
-	public MyIterator(boolean head) 
+	public DLLDequeIterator(boolean head) 
 	{
 	    this.head = head;
 	    //place dummy node in front of head
 	    if(head)
-		_dummy = new DLLNode<String>( null, null , _head);
+		_dummy = new DLLNode<E>( null, null , _head);
 	    else
-		_dummy = new DLLNode<String>( null, _tail, null );
+		_dummy = new DLLNode<E>( null, _tail, null );
 	    _okToRemove = false;
 	}
 
@@ -261,7 +263,7 @@ public class DLLDeque implements Deque, Iterable {
 
 
 	//return next element in this iteration
-	public String next() 
+	public E next() 
 	{
 	    if(head)
 		_dummy = _dummy.getNext();
@@ -312,7 +314,7 @@ public class DLLDeque implements Deque, Iterable {
     }//*************** end inner class MyIterator *************** 
 
     public static void main( String[] args ) {
-	DLLDeque test = new DLLDeque();
+	DLLDeque<String> test = new DLLDeque<>();
 	//Adding test
 	System.out.println(test); //null
 	test.addFirst("foo");
