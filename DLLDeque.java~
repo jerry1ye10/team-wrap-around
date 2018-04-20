@@ -1,7 +1,7 @@
 import java.util.NoSuchElementException;
 import java.util.Iterator;
 
-public class DLLDeque implements Deque, Iterable {
+public class DLLDeque implements Deque {
     DLLNode<String> _head, _tail;
     int _size;
     int _max;
@@ -115,35 +115,7 @@ public class DLLDeque implements Deque, Iterable {
 	_size--;
 	return retVal;
     }
-
-    public boolean remove(String o) {
-	return removeFirstOccurence(o);
-    }
-    
-    public boolean removeFirstOccurence(String o) {
-	Iterator<String> iter = iterator();
-	while(iter.hasNext()) {
-	    String s = iter.next();
-	    if(s.equals(o)) {
-		iter.remove();
-		return true;
-	    }
-	}
-	return false;
-    }
-
-    public boolean removeLastOccurence(String o) {
-	Iterator<String> iter = descendingIterator();
-	while(iter.hasNext()) {
-	    String s = iter.next();
-	    if(s.equals(o)) {
-		iter.remove();
-		return true;
-	    }
-	}
-	return false;
-    }
-    
+	
     public String pop() {
 	return removeFirst();
     }
@@ -193,58 +165,37 @@ public class DLLDeque implements Deque, Iterable {
     public String element() {
 	return getFirst();
     }
-
-    public Iterator<String> iterator() {
-	return new MyIterator(true);
-    }
-
-    public Iterator<String> descendingIterator() {
-	return new MyIterator(false);
-    }
-
-    public boolean contains(String o) {
-	Iterator<String> i = this.iterator();
-	while (i.hasNext()) {
-	    String s = i.next();
-	    if( s.equals(o) ) {
-		return true;
-	    }
-	}
-	return false;
-    }
     
     public String toString() {
 	if( _size == 0 ) {return null;}
-	String retStr = "HEAD->";
+	String retStr = "";
 	DLLNode tmp = _head;
 	for(int i = 0; i < _size; i++) {
-	    retStr += tmp.getValue() + "<->";
+	    retStr += tmp.getValue() + ", ";
 	    tmp = tmp.getNext();
 	}
-	retStr = retStr.substring(0, retStr.length()-3);
-	return retStr + "<-TAIL";
+	retStr = retStr.substring(0, retStr.length()-2);
+	return retStr;
     }
 
     /*****************************************************
      * inner class MyIterator
      * Adheres to specifications given by Iterator interface.
-     * Uses dummy node to facilitate iterability over DLLDeque.
+     * Uses dummy node to facilitate iterability over LList.
      *****************************************************/
-    private class MyIterator implements Iterator<String> 
+    private class MyIterator implements Iterator<T> 
     {
 	private DLLNode<String> _dummy;   // dummy node to tracking pos
 	private boolean _okToRemove; // flag indicates next() was called
-	private boolean head; //Whether the iterator starts from the head or the tail
-	
+    
 	//constructor 
 	public MyIterator(boolean head) 
 	{
-	    this.head = head;
 	    //place dummy node in front of head
 	    if(head)
-		_dummy = new DLLNode<String>( null, null , _head);
+		_dummy = new DLLNode<String>( null, null, _head );
 	    else
-		_dummy = new DLLNode<String>( null, _tail, null );
+		_dummy = new DLLNode<String>( null, null, _tail );
 	    _okToRemove = false;
 	}
 
@@ -253,24 +204,18 @@ public class DLLDeque implements Deque, Iterable {
 	//return true if iteration has more elements.
 	public boolean hasNext() 
 	{
-	    if(head)
-		return _dummy.getNext() != null;
-	    else
-		return _dummy.getPrev() != null;
+	    return _dummy.getNext() != null;
 	}
 
 
 	//return next element in this iteration
-	public String next() 
+	public T next() 
 	{
-	    if(head)
-		_dummy = _dummy.getNext();
-	    else
-		_dummy = _dummy.getPrev();
+	    _dummy = _dummy.getNext();
 	    if ( _dummy == null )
 		throw new NoSuchElementException();
 	    _okToRemove = true;
-	    return _dummy.getValue();
+	    return _dummy.getCargo();
 	}
 
 
@@ -303,60 +248,28 @@ public class DLLDeque implements Deque, Iterable {
 	    else {
 		_dummy.getNext().setPrev( _dummy.getPrev() );
 		_dummy.getPrev().setNext( _dummy.getNext() );
+		//Q: How could the line below cause trouble?
+		//_dummy = _dummy.getPrev();
 	    }
 
 	    _size--; //decrement size attribute of outer class LList      
 	}//end remove()
 	//--------------^  Iterator interface methods  ^-------------
 	//-----------------------------------------------------------
-    }//*************** end inner class MyIterator *************** 
+    }//*************** end inner class MyIterator *************** private class DLLIterator implements Iterator<String>
 
     public static void main( String[] args ) {
 	DLLDeque test = new DLLDeque();
-	//Adding test
 	System.out.println(test); //null
 	test.addFirst("foo");
 	System.out.println(test); //foo
 	test.addFirst("bar");
 	System.out.println(test); //bar, foo
 	test.addLast("baf");
-	System.out.println(test); //bar, foo, baf
-	
-	//Iterator testing
-	Iterator<String> iter = test.iterator();
-	System.out.println(iter.next()); //bar
-	System.out.println(iter.next()); //foo
-        //iter.remove();
-	//System.out.println(test);
-	System.out.println(iter.next()); //baf
-
-	//Descending iterator testing
-        iter = test.descendingIterator();
-	System.out.println(iter.next()); //baf
-	System.out.println(iter.next()); //foo
-        //iter.remove();
-	//System.out.println(test);
-	System.out.println(iter.next()); //bar
-
-	//Contains test
-	System.out.println(test.contains("baf"));//true
-	System.out.println(test.contains("baaar"));//false
-
-	//Remove test
-	System.out.println(test.remove("baf"));//true
-	System.out.println(test.remove("baaar"));//false
-	System.out.println(test);
-	test.addLast("baf");
-	System.out.println(test);
-	
-	//Size test
+	System.out.println(test); //bar, foo, bad
 	System.out.println(test.size()); //3 
-
-	//Accessor test 
 	System.out.println(test.getFirst()); //bar
 	System.out.println(test.getLast()); //baf
-
-	//Remove
 	test.removeFirst();
 	System.out.println(test); //foo, baf
 	test.removeLast();

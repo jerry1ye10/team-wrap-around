@@ -90,7 +90,7 @@ public interface Deque {
     //Return an iterator of the elements in this deque
     public Iterator<String> iterator();
 
-  
+    /* WORK BAR
     //Return an iterator of the elements in reverse order in this deque
     public Iterator<String> descendingIterator();
 	
@@ -105,4 +105,5 @@ public interface Deque {
     //Remove the last occurince of Object o in string. Return whether there was an element
     //that matched the query
     public boolean removeLastOccurence(String o);
+    WORK BAR*/
 } //end interface
