@@ -2,26 +2,32 @@ import java.util.NoSuchElementException;
 import java.util.Iterator;
 import java.util.Deque; //Does not conform to the standard library because of unimplemented methods in subinterfaces
 
-public class DLLDeque<E> implements MyDeque<E>, Iterable {
-    DLLNode<E> _head, _tail;
-    int _size;
-    int _max;
 
+//DLLDeque is an implementation of our deque interface using DLLNodes (similar to a DLLList)
+public class DLLDeque<E> implements MyDeque<E>, Iterable {
+    DLLNode<E> _head, _tail; //head and tail pointers
+    int _size; //size of Deque
+    int _max; //largest size possible of deque, -1 if infinite
+
+    //init vars
     public DLLDeque() {
        	_size = 0;
        	_max = -1;
     }
 
+    //init vars and max (user pref)
     public DLLDeque(int max) {
        	this();
        	_max = max;
     }
 	
+    //Identical to add last except for boolean return val
     public boolean add(E e) {
 	addLast(e);
 	return true;
     }
 	
+    //Adds an element to the front of the deque, throws exception if over the limit (Assuming there is one)
     public void addFirst(E e) {
 	if( (_max >= 0) && (_size >= _max) ) {
 	    throw new IllegalStateException("Max size reached");
@@ -39,6 +45,7 @@ public class DLLDeque<E> implements MyDeque<E>, Iterable {
 	_size++;
     }
 	
+    //Same as add first but adds to the end
     public void addLast(E e) {
 	if( (_max >= 0) && (_size >= _max) ) {
 	    throw new IllegalStateException("Max size reached");
@@ -55,15 +62,19 @@ public class DLLDeque<E> implements MyDeque<E>, Iterable {
 	}
 	_size++;
     }
-
+    
+    //Identical to addFirst
     public void push(E e) {
 	addFirst(e);
     }
-	
+    
+    //Identical to offerLast
     public boolean offer(E e) {
 	return offerLast(e);
     }
 	
+    //returns false if over limit, otherwise identical to addFirst
+    //This should be used if a capped deque is init'd
     public boolean offerFirst(E e) {
 	if( (_max >= 0) && (_size >= _max) ) {
 	    return false;
@@ -72,6 +83,7 @@ public class DLLDeque<E> implements MyDeque<E>, Iterable {
 	return true;
     }
 	
+    //Same as offer first but adds to end
     public boolean offerLast(E e) {
 	if( (_max >= 0) && (_size >= _max) ) {
 	    return false;
@@ -79,11 +91,13 @@ public class DLLDeque<E> implements MyDeque<E>, Iterable {
 	addLast(e);
 	return true;
     }
-	
+    
+    //Identical to removeFirst
     public E remove(){
 	return removeFirst();
     }
-	
+    
+    //Removes head of deque, throws no such element if the size is 0
     public E removeFirst(){
 	E retVal;
 	if(size() == 0) { throw new NoSuchElementException();}
@@ -101,6 +115,7 @@ public class DLLDeque<E> implements MyDeque<E>, Iterable {
 	return retVal;
     }
     
+    //Removes tail of deque throws no such element if the size is 0
     public E removeLast(){
 	E retVal;
 	if(size() == 0) { throw new NoSuchElementException();}
@@ -118,10 +133,12 @@ public class DLLDeque<E> implements MyDeque<E>, Iterable {
 	return retVal;
     }
 
+    //Same as remove first occurence
     public boolean remove(Object o) {
 	return removeFirstOccurrence(o);
     }
     
+    //Removes first occurrence of Object o in the deque, returns true if there is something to remove, otherwise false
     public boolean removeFirstOccurrence(Object o) {
 	Iterator<E> iter = iterator();
 	while(iter.hasNext()) {
@@ -134,6 +151,7 @@ public class DLLDeque<E> implements MyDeque<E>, Iterable {
 	return false;
     }
 
+    //Same as removeFirstOccurrence, but traverses through backwards
     public boolean removeLastOccurrence(Object o) {
 	Iterator<E> iter = descendingIterator();
 	while(iter.hasNext()) {
@@ -146,64 +164,78 @@ public class DLLDeque<E> implements MyDeque<E>, Iterable {
 	return false;
     }
     
+    //Identical to removeFirst
     public E pop() {
 	return removeFirst();
     }
 	
+    //Identical to pollFirst
     public E poll() {
 	return pollFirst();
     }
 	
+    //Same as removeFirst, but returns null instead if deque is empty
     public E pollFirst() {
 	if(_size == 0) { return null; }
 	return removeFirst();
     }
-	
+    
+    //Same as removeLast, but returns null instead if deque is empty
     public E pollLast() {
 	if(_size == 0) { return null; }
 	return removeLast();
     }
 	
+    //return size of the deque
     public int size() {
        	return _size;
     }
 	
+    //return front of deque, if the deque is empty return null
     public E getFirst() {
 	if( _size == 0 ) { throw new NoSuchElementException(); }
        	return _head.getValue();
     }
 
+    //return last of deque, if the deque is empty return null
     public E getLast() {
 	if( _size == 0 ) { throw new NoSuchElementException(); }
 	return _tail.getValue();
     }
-	
+    
+    //Same is peekFirst peek
     public E peek() {
 	return peekFirst();
     }
-	
+    
+    //Same as getFirst except it returns null with an empty deque
     public E peekFirst() {
 	if( _size == 0 ) { return null; }
 	return getFirst();
     }
 	
+    //Same as getLast except it returns null with an empty deque
     public E peekLast() {
 	if( _size == 0 ) { return null; }
 	return getLast();
     }
 	
+    //Identical to getFirst
     public E element() {
 	return getFirst();
     }
-
+    
+    //Return an iterator that iterates forward thru the deque
     public Iterator<E> iterator() {
 	return new DLLDequeIterator(true);
     }
 
+    //Return an iterator that iterates backwards thru the deque
     public Iterator<E> descendingIterator() {
 	return new DLLDequeIterator(false);
     }
 
+    //return true if Object o is in the the deque
     public boolean contains(Object o) {
 	Iterator<E> i = this.iterator();
 	while (i.hasNext()) {
@@ -228,6 +260,7 @@ public class DLLDeque<E> implements MyDeque<E>, Iterable {
     }
 
     /*****************************************************
+     * LIBRARY IMPLEMENTATION ALL CREDIT TO BROWN-MYKOLYK
      * inner class MyIterator
      * Adheres to specifications given by Iterator interface.
      * Uses dummy node to facilitate iterability over DLLDeque.
@@ -274,8 +307,7 @@ public class DLLDeque<E> implements MyDeque<E>, Iterable {
 	    _okToRemove = true;
 	    return _dummy.getValue();
 	}
-
-
+	    
 	//return last element returned by this iterator (from last next() call)
 	//postcondition: maintains invariant that _dummy always points to a node
 	//               (...so that hasNext() will not crash)
