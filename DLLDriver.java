@@ -1,6 +1,6 @@
 public class DLLDriver {
     public static void main (String[] args) {
-        DLLDeque<String> iscream = new DLLDeque<String>();
+        QQKachoo<String> iscream = new QQKachoo<>();
 
         System.out.println("-----Adding to front------");
         iscream.addFirst("Chocolate");
