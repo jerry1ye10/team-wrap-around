@@ -1,4 +1,4 @@
-public class DequeTester
+public class DequeTester2
 {
     //prints whatever you input
     public static void s(Object x)
