@@ -8,7 +8,7 @@ public class DLLDeque<E> implements MyDeque<E>, Iterable {
     DLLNode<E> _head, _tail; //head and tail pointers
     int _size; //size of Deque
     int _max; //largest size possible of deque, -1 if infinite
-
+    
     //init vars
     public DLLDeque() {
        	_size = 0;
