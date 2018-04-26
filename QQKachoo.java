@@ -1,11 +1,12 @@
 import java.util.NoSuchElementException;	
 import java.util.Iterator;
 import java.util.Collection;
-import java.util.Deque; //Does not conform to the standard library because of unimplemented methods in subinterfaces	
+import java.util.Deque;
+import java.util.Arrays;
 	
 	
 //QQKachoo is an implementation of our deque interface using DLLNodes (similar to a DLLList)	
-public class QQKachoo<E> implements Deque<E>, Iterable {	
+public class QQKachoo<E> implements Deque<E> {	
     DLLNode<E> _head, _tail; //head and tail pointers	
     int _size; //size of Deque	
     int _max; //largest size possible of deque, -1 if infinite	
@@ -322,6 +323,33 @@ public class QQKachoo<E> implements Deque<E>, Iterable {
 	return retStr + "<-TAIL";	
     }	
 
+    @SuppressWarnings("unchecked")
+    public <T> T[] toArray(T[] a) {
+        if( a.length < size() ) {
+	    a = Arrays.copyOf(a, size());
+	}
+	int cnt = 0;
+	for( E e : this ) {
+	    a[cnt] = (T) e;
+	    cnt++;
+	}
+	for(int i = cnt; i < a.length; i++) {
+	    a[cnt] = null;
+	}
+	return a;
+       
+    }
+
+    public Object[] toArray() {
+	Object[] ret = new Object[size()];
+	int cnt = 0;
+	for( Object o : this ) {
+	    ret[cnt] = o;
+	    cnt++;
+	}
+	return ret;
+    }
+    
     /*****************************************************	
      * LIBRARY IMPLEMENTATION ALL CREDIT TO BROWN-MYKOLYK	
      * inner class MyIterator	
@@ -410,6 +438,16 @@ public class QQKachoo<E> implements Deque<E>, Iterable {
 	
     public static void main( String[] args ) {	
 	QQKachoo<String> test = new QQKachoo<>();	
+	test.addFirst("foo");
+	test.addFirst("bar");
+	test.addFirst("baf");
+	System.out.println(test.size());
+	String[] arr = test.toArray(new String[0]);
+	for(int i = 0; i < arr.length; i++) {
+	    System.out.println(arr[i]);
+	}
+	
+	/*
 	//Adding test	
 	System.out.println(test); //null	
 	test.addFirst("foo");	
@@ -458,5 +496,8 @@ public class QQKachoo<E> implements Deque<E>, Iterable {
 	System.out.println(test); //foo, baf	
 	test.removeLast();	
 	System.out.println(test); //foo	
+	*/
+
+	
     }	
 }
