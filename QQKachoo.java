@@ -5,16 +5,30 @@ import java.util.Deque;
 import java.util.Arrays;
 	
 	
-//QQKachoo is an implementation of our deque interface using DLLNodes (similar to a DLLList)	
+/*******************************************
+ * public class QQKachoo
+ * Adheres to java's Deque interface
+ * Formally adhered to personal MyDeque Standard
+ * Is a Queue that can be accessed from both ends
+ * Due to specifications can also serve as a Stack,
+ * regular Queue, Collection, and Iterable.
+ * Differs from a List in that elements cannot be
+ * accessed by index.
+ *******************************************/
 public class QQKachoo<E> implements Deque<E> {	
     DLLNode<E> _head, _tail; //head and tail pointers	
     int _size; //size of Deque	
     int _max; //largest size possible of deque, -1 if infinite	
-	
+
+    /***********************
+     *     CONSTRUCTORS    *
+     ***********************
+     *------V-Start-V------*/
+    
     //init vars	
     public QQKachoo() {	
 	_size = 0;	
-	_max = -1;	
+	_max = -1; //infinite max size	
     }	
 	
     //init vars and max (user pref)	
@@ -22,7 +36,14 @@ public class QQKachoo<E> implements Deque<E> {
 	this();	
 	_max = max;	
     }	
-		
+
+    /*------^-END-^------*/
+
+    /**********************
+     *  ADDITION METHODS  *
+     **********************
+     *------V-Start-V-----*/
+    
     //Identical to add last except for boolean return val	
     public boolean add(E e) {	
 	addLast(e);	
@@ -31,12 +52,12 @@ public class QQKachoo<E> implements Deque<E> {
 		
     //Adds an element to the front of the deque, throws exception if over the limit (Assuming there is one)	
     public void addFirst(E e) {	
-	if( (_max >= 0) && (_size >= _max) ) {	
+	if( (_max >= 0) && (_size >= _max) ) { //If over limit specified by max
 	    throw new IllegalStateException("Max size reached");	
 	}	
-	else if(size() == 0) {	
+	else if(size() == 0) { //special case for first element in deque	
 	    DLLNode<E> newNode = new DLLNode<E>(e, null, null);	
-	    _head = newNode;	
+	    _head = newNode;   
 	    _tail = newNode;	
 	}	
 	else {	
@@ -49,10 +70,10 @@ public class QQKachoo<E> implements Deque<E> {
 		
     //Same as add first but adds to the end	
     public void addLast(E e) {	
-	if( (_max >= 0) && (_size >= _max) ) {	
+	if( (_max >= 0) && (_size >= _max) ) {	//If over limit specified by max
 	    throw new IllegalStateException("Max size reached");	
 	}	
-	else if(size() == 0) {	
+	else if(size() == 0) {	//special case for first element in deque
 	    DLLNode<E> newNode = new DLLNode<E>(e, null, null);	
 	    _head = newNode;	
 	    _tail = newNode;	
@@ -96,18 +117,30 @@ public class QQKachoo<E> implements Deque<E> {
 
     //Add all items in collection 
     public boolean addAll(Collection<? extends E> c) {
+	if( (_max >= 0) && (size() + c.size() >= _max) ) {//If over limit specified by max
+	    throw new IllegalStateException("Max size reached");	
+	}
 	boolean ret = false;
 	for( E cEl : c ) {
-	    this.add(cEl);
+	    this.add(cEl); 
 	    ret = true;
 	}
 	return ret;
     }
 
+    /*------^-END-^------*/
+
+    /**********************
+     *  REMOVAL METHODS   *
+     **********************
+     *------V-Start-V-----*/
+
+    
     //Remove all items in list
     public void clear() {
 	_head = null;
 	_tail = null;
+	_size = 0;
     }
     
     //Identical to removeFirst	
@@ -162,7 +195,8 @@ public class QQKachoo<E> implements Deque<E> {
 	while(iter.hasNext()) {	
 	    E e = iter.next();	
 	    if(e.equals(o)) {	
-		iter.remove();	
+		iter.remove();
+		_size--;
 		return true;	
 	    }	
 	}	
@@ -175,7 +209,8 @@ public class QQKachoo<E> implements Deque<E> {
 	while(iter.hasNext()) {	
 	    E e = iter.next();	
 	    if(e.equals(o)) {	
-		iter.remove();	
+		iter.remove();
+		_size--;
 		return true;	
 	    }	
 	}	
@@ -204,37 +239,44 @@ public class QQKachoo<E> implements Deque<E> {
 	return removeLast();	
     }	
 
-    //keeps all items in the intersection of Collection c and QQKachoo
+    //keeps all items in the intersection of Collection c and QQKachoo, removes everything else.  Returns true if changes are made
     public boolean retainAll(Collection<?> c) {
 	boolean ret = false;
-	Iterator<E> iter = this.iterator();
-	while(iter.hasNext()) {
+	Iterator<E> iter = this.iterator(); //iterator so we can remove as we go
+ 	while(iter.hasNext()) { 
 	    E e = iter.next();
-	    for( Object cEl : c ) {
-		if(cEl.equals(e)) {
-		    ret = true;
-		    iter.remove();
-		}
+	    if(!c.contains(e)) { //If the current item isn't in both
+		iter.remove();
+		ret = true;
+		_size--;
 	    }
 	}
 	return ret;
     }
 
-    //Removes items in the intersection of Collection c and QQKachoo
+    //Removes items in the intersection of Collection c and QQKachoo, returns true if changes were made
     public boolean removeAll(Collection<?> c) {
 	boolean ret = false;
-	Iterator<E> iter = this.iterator();
-	while(iter.hasNext()) {
+	Iterator<E> iter = this.iterator(); //iterator so we can remove as we go
+ 	while(iter.hasNext()) { 
 	    E e = iter.next();
-	    for( Object cEl : c ) {
-		if(!cEl.equals(e)) {
-		    ret = true;
-		    iter.remove();
-		}
+	    if(c.contains(e)) { //If the current item is in both
+		iter.remove();
+		ret = true;
+		_size--;
 	    }
 	}
 	return ret;
     }
+
+    
+    /*------^-END-^------*/
+
+    /**********************
+     *   STATE METHODS    *
+     **********************
+     *------V-Start-V-----*/
+
     
     //return size of the deque	
     public int size() {	
@@ -245,6 +287,36 @@ public class QQKachoo<E> implements Deque<E> {
     public boolean isEmpty() {
 	return _size == 0;
     }
+
+    	
+    //return true if Object o is in the the deque	
+    public boolean contains(Object o) {	
+	Iterator<E> i = this.iterator();	
+	while (i.hasNext()) {	
+	    E e = i.next();	
+	    if( e.equals(o) ) {	
+		return true;	
+	    }	
+	}	
+	return false;	
+    }
+
+    //return true if all the elements in collection c are contained within QQKachoo
+    public boolean containsAll(Collection<?> c) {
+	for(Object cEl : c) {
+	    if(!contains(c))
+		return false;
+	}
+	return true;
+    }
+    
+    /*------^-END-^------*/
+
+    /**********************
+     *      ACCESSORS     *
+     **********************
+     *------V-Start-V-----*/
+
     
     //return front of deque, if the deque is empty return null	
     public E getFirst() {	
@@ -279,79 +351,78 @@ public class QQKachoo<E> implements Deque<E> {
     public E element() {	
 	return getFirst();	
     }	
-    	
+
+    /*------^-END-^------*/
+
+    /**********************
+     *  ITERATOR METHODS  *
+     **********************
+     *------V-Start-V-----*/
+
+    
     //Return an iterator that iterates forward thru the deque	
     public Iterator<E> iterator() {	
-	return new QQKachooIterator(true);	
+	return new QQKachooIterator(true); //return iterator starting at head	
     }	
 	
     //Return an iterator that iterates backwards thru the deque	
     public Iterator<E> descendingIterator() {	
-	return new QQKachooIterator(false);	
+	return new QQKachooIterator(false); //return iterator starting at tail
     }	
-	
-    //return true if Object o is in the the deque	
-    public boolean contains(Object o) {	
-	Iterator<E> i = this.iterator();	
-	while (i.hasNext()) {	
-	    E e = i.next();	
-	    if( e.equals(o) ) {	
-		return true;	
-	    }	
-	}	
-	return false;	
-    }
 
-    //return true if all the elements in collection c are contained within QQKachoo
-    public boolean containsAll(Collection<?> c) {
-	for(Object cEl : c) {
-	    if(!contains(c))
-		return false;
-	}
-	return true;
-    }
-    	
+    /*------^-END-^------*/
+
+    /**********************
+     * CONVERSION METHODS *
+     **********************
+     *------V-Start-V-----*/
+
+    //simple toString to display Deque in a clear format for testing
     public String toString() {	
 	if( _size == 0 ) {return null;}	
 	String retStr = "HEAD>";	
 	DLLNode tmp = _head;	
 	for(int i = 0; i < _size; i++) {	
-	    retStr += tmp.getValue() + "<>";	
+	    retStr += tmp.getValue() + "<->";	
 	    tmp = tmp.getNext();	
 	}	
 	retStr = retStr.substring(0, retStr.length()-3);	
 	return retStr + "<-TAIL";	
     }	
 
+    
     @SuppressWarnings("unchecked")
     public <T> T[] toArray(T[] a) {
         if( a.length < size() ) {
-	    a = Arrays.copyOf(a, size());
+	    a = Arrays.copyOf(a, size()); //set a to an expanded copy of itself, making a new list of type T
+	                                  //would cause a class cast error
 	}
 	int cnt = 0;
 	for( E e : this ) {
-	    a[cnt] = (T) e;
+	    a[cnt] = (T) e; //copy deque elements into a (causes unchecked warning)
 	    cnt++;
 	}
 	for(int i = cnt; i < a.length; i++) {
-	    a[cnt] = null;
+	    a[cnt] = null; //fill up remaining list with null as recommended by docs
 	}
-	return a;
-       
+	return a; //return modified a
     }
-
+    
     public Object[] toArray() {
-	Object[] ret = new Object[size()];
+	Object[] ret = new Object[size()]; //
 	int cnt = 0;
 	for( Object o : this ) {
-	    ret[cnt] = o;
+	    ret[cnt] = o; //copy objects in this Deque to the new Array
 	    cnt++;
 	}
 	return ret;
     }
+
+    /*------^-END-^------*/
+
     
     /*****************************************************	
-     * LIBRARY IMPLEMENTATION ALL CREDIT TO BROWN-MYKOLYK	
+     * LIBRARY IMPLEMENTATION ALL CREDIT TO TOPHER BROWN-MYKOLYK	
      * inner class MyIterator	
      * Adheres to specifications given by Iterator interface.	
      * Uses dummy node to facilitate iterability over QQKachoo.	
@@ -432,10 +503,9 @@ public class QQKachoo<E> implements Deque<E> {
 	
 	    _size--; //decrement size attribute of outer class LList      	
 	}//end remove()	
-	//--------------^  Iterator interface methods  ^-------------	
-	//-----------------------------------------------------------	
-    }//*************** end inner class MyIterator *************** 	
-	
+    }//End class QQKachooIterator
+
+    
     public static void main( String[] args ) {	
 	QQKachoo<String> test = new QQKachoo<>();	
 	test.addFirst("foo");
@@ -446,8 +516,9 @@ public class QQKachoo<E> implements Deque<E> {
 	for(int i = 0; i < arr.length; i++) {
 	    System.out.println(arr[i]);
 	}
+
+	test.clear();
 	
-	/*
 	//Adding test	
 	System.out.println(test); //null	
 	test.addFirst("foo");	
@@ -496,8 +567,5 @@ public class QQKachoo<E> implements Deque<E> {
 	System.out.println(test); //foo, baf	
 	test.removeLast();	
 	System.out.println(test); //foo	
-	*/
-
-	
-    }	
-}
+    }//End main()
+}//End class
