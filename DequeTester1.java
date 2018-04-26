@@ -1,4 +1,4 @@
-public class DLLDriver {
+public class DequeTester1 {
     public static void main (String[] args) {
         QQKachoo<String> iscream = new QQKachoo<>();
 

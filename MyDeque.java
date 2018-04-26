@@ -1,4 +1,5 @@
 import java.util.Iterator;
+import java.util.Collection;
 
 //Conforms to the standard library documentation, minus the sub interfaces
 public interface MyDeque<E> {
@@ -81,16 +82,20 @@ public interface MyDeque<E> {
     //Adds an item onto the stack represented by this deque
     public void push(E e);
 
+    //Return whether the Deque is empty
+    public boolean isEmpty();
+    
     /****************************
      *    EXTRA FUNCTIONALITY    *
      *****************************/
 	
     //Returns true if the object is in the list
     public boolean contains(Object o);
-       
+
+    public boolean containsAll(Collection<?> c);
+    
     //Return an iterator of the elements in this deque
     public Iterator<E> iterator();
-
   
     //Return an iterator of the elements in reverse order in this deque
     public Iterator<E> descendingIterator();
@@ -106,4 +111,23 @@ public interface MyDeque<E> {
     //Remove the last occurince of Object o in string. Return whether there was an element
     //that matched the query
     public boolean removeLastOccurrence(Object o);
+
+    //Adds all items in collection c to Deque, throw exception if max size reached
+    public boolean addAll(Collection<? extends E> c);
+
+    //Remove all items in list
+    public void clear();
+
+    //Remove items that are not in both the Deque and collection c
+    public boolean retainAll(Collection<?> c);
+
+    //Remove items that are in both the Deque and collection c
+    public boolean removeAll(Collection<?> c);
+
+    //Return T[] a with elements from Deque in it. If a is to small make a larger copy of it
+    public <T> T[] toArray(T[] a);
+
+    //Return the elements in Deque in an array of Objects
+    public Object[] toArray();
+    
 } //end interface

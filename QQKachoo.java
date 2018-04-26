@@ -15,7 +15,7 @@ import java.util.Arrays;
  * Differs from a List in that elements cannot be
  * accessed by index.
  *******************************************/
-public class QQKachoo<E> implements Deque<E> {	
+public class QQKachoo<E> implements Deque<E>, MyDeque<E> {	
     DLLNode<E> _head, _tail; //head and tail pointers	
     int _size; //size of Deque	
     int _max; //largest size possible of deque, -1 if infinite	
@@ -122,7 +122,8 @@ public class QQKachoo<E> implements Deque<E> {
 	}
 	boolean ret = false;
 	for( E cEl : c ) {
-	    this.add(cEl); 
+	    this.add(cEl);
+	    _size++;
 	    ret = true;
 	}
 	return ret;
@@ -390,7 +391,7 @@ public class QQKachoo<E> implements Deque<E> {
 	return retStr + "<-TAIL";	
     }	
 
-    
+    //Return a, but filled with the contents of this Deque.  a required to have typing work
     @SuppressWarnings("unchecked")
     public <T> T[] toArray(T[] a) {
         if( a.length < size() ) {

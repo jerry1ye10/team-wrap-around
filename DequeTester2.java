@@ -14,7 +14,7 @@ public class DequeTester2
 
 	/*
 	//CORE IMPLEMENTATION
-	MyDeque<String> teamVoltron = new DLLDeque<String>();
+	MyDeque<String> teamVoltron = new QQKachoo<String>();
 	s("Empty Deque teamVoltron created");
 	s("Peeking into the front end: "+teamVoltron.peekFirst());
 	s("Peeking into the back end: "+teamVoltron.peekLast());
@@ -95,7 +95,7 @@ st());
 	//////////////////////////////////
 	/*
 	//PHASE TWO IMPLEMENTATION
-	MyDeque<String> teamVoltron = new DLLDeque<String>();
+	MyDeque<String> teamVoltron = new QQKachoo<String>();
 	s("Empty Deque teamVoltron created");
 	//s("Getting paladin at the front end: "+teamVoltron.getFirst());
 	//s("Getting paladin at the back end: "+teamVoltron.getLast());
@@ -176,7 +176,7 @@ st());
 	////////////////////////////////////
 	
 	
-	MyDeque<String> teamVoltron = new DLLDeque<String>();
+	MyDeque<String> teamVoltron = new QQKachoo<String>();
 	s("Empty Deque teamVoltron created");
 	
 	s("");
